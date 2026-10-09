@@ -250,10 +250,42 @@ finally:
 # code:
 
 ```
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+
+driver = webdriver.Chrome()
+
+try:
+    driver.get("https://assertqa.com/practice/webtables")
+    
+    # The link text or URL you want to search for on the page
+    target_link = "assertqa" 
+    
+    wait = WebDriverWait(driver, 5)
+    
+    try:
+        # Changed the XPath to search for ANY link (<a>) on the entire page
+        link_element = wait.until(EC.presence_of_element_located(
+            (By.XPATH, f"//a[contains(@href, '{target_link}')]")
+        ))
+        
+        print("--- TC07: Verify Website Link Exists ---")
+        print(f"PASS: A link containing '{target_link}' exists on the webpage.")
+        
+    except TimeoutException:
+        print("--- TC07: Verify Website Link Exists ---")
+        print(f"FAIL: No link containing '{target_link}' was found on the webpage.")
+
+finally:
+    driver.quit()
 
 ```
 
 # output:
+<img width="720" height="95" alt="image" src="https://github.com/user-attachments/assets/0061ee7f-2f19-4b18-b3bf-8f0f58cd0b80" />
 
 # Task 08:
 
